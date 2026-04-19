@@ -2,22 +2,38 @@
 
 ## Project Description
 
-**Torilo Shop** is a beginner-friendly Django e-commerce web application designed to demonstrate core Django concepts. It serves as a functional online retail storefront where customers can browse products, learn about the company, and explore different pages of the website.
+**Torilo Shop** is a beginner-friendly Django e-commerce web application built to demonstrate core Django concepts and data modeling. It includes product and category data structures so users can browse items sorted by category.
+
+The project now includes the following models:
+- `Category`: stores product categories with `name` and optional `description`
+- `Product`: stores products with `name`, `price`, `stock`, `category`, and `created_at`
 
 The project showcases:
 - Django project structure and app architecture
 - URL routing and view functions
-- HTTP responses with styled HTML
-- Navigation between pages
-- Custom error handling (404 page)
+- Database modeling with Django ORM
+- Filtering and querying products by category and price
+- Admin data management and custom 404 page handling
 
 ## Features Implemented
 
-### Views Created
-1. **home()** - Welcome/landing page with introduction and quick navigation
-2. **product_list()** - Display all available products with prices
-3. **about()** - Company information, mission, and contact details
-4. **page_not_found()** - Custom 404 error handler for missing pages
+### Models Created
+1. **Category**
+   - `name` (CharField)
+   - `description` (TextField, blank=True)
+2. **Product**
+   - `name` (CharField)
+   - `price` (DecimalField)
+   - `stock` (IntegerField)
+   - `category` (ForeignKey to Category)
+   - `created_at` (DateTimeField, auto_now_add=True)
+
+### ORM Operations Performed
+- `Product.objects.all()` — View all products
+- `Product.objects.filter(category__name='Electronics')` — Filter products by category name
+- `cat = Category.objects.get(name='Electronics')`
+  `Product.objects.filter(category=cat)` — Filter by a category object
+- `Product.objects.filter(price__gt=5000)` — Products with price greater than 5000
 
 ### URL Routes
 | URL | View | Purpose |
@@ -28,7 +44,7 @@ The project showcases:
 | (Any invalid URL) | page_not_found() | 404 error page |
 
 ### Apps Registered
-- `products` - Main commerce app containing views and URLs
+- `products` - Main commerce app containing views, models, admin, and URLs
 - `users` - User management app (placeholder for future development)
 
 ## Setup Instructions
@@ -36,7 +52,7 @@ The project showcases:
 ### Step 1: Create Virtual Environment
 ```bash
 # Navigate to the project directory
-cd Kelvin_Ordu_Module7/toriloshop/
+cd Kelvin_Ordu_Module7/toriloshop
 
 # Create a virtual environment
 python -m venv venv
@@ -48,25 +64,31 @@ python -m venv venv
 source venv/bin/activate
 ```
 
-### Step 2: Install Django
+### Step 2: Install Dependencies
 ```bash
-# Install Django
 pip install django
 ```
 
-### Step 3: Run the Development Server
+### Step 3: Create and Apply Migrations
 ```bash
-# Start the Django development server
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### Step 4: Create Superuser for Admin
+```bash
+python manage.py createsuperuser
+```
+
+### Step 5: Run the Development Server
+```bash
 python manage.py runserver
 ```
 
-The server will start at: **http://127.0.0.1:8000/**
+Open the app at: **http://127.0.0.1:8000/**
 
-### Step 4: Access the Application
-Open your web browser and visit:
-- **Home Page:** http://127.0.0.1:8000/
-- **Products:** http://127.0.0.1:8000/products/
-- **About:** http://127.0.0.1:8000/about/
+### Step 6: Access the Admin Panel
+Open: **http://127.0.0.1:8000/admin/**
 
 ### To Stop the Server
 Press `CTRL + C` in the terminal
@@ -99,14 +121,23 @@ Kelvin_Ordu_Module7/
 
 ## Screenshots
 
-### Home Page
-![Home Page](screenshots/01_home_page.png)
+### Admin Category List
+![Admin Category List](screenshots/01_admin_category_list.png)
 
-### Products Page
-![Products Page](screenshots/02_product_page.png)
+### Admin Product List
+![Admin Product List](screenshots/02_admin_product_list.png)
 
-### About Page
-![About Page](screenshots/03_about_page.png)
+### Django Shell - All Products
+![All Products](screenshots/03_shell_all_products.png)
+
+### Django Shell - Filter by Category
+![Filter by Category](screenshots/04_shell_filter_by_category.png)
+
+### Django Shell - Filter by Price
+![Filter by Price](screenshots/05_shell_filter_by_price.png)
+
+### Migration Success
+![Migration Success](screenshots/06_migration_success.png)
 
 ## Key Files
 
