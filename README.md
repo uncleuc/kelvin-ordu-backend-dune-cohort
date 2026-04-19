@@ -203,4 +203,4 @@ Created as an educational Django learning project for Module 7
 
 ---
 
-**Happy Learning! 🚀**
+**Happy Learning!!! 🚀**
