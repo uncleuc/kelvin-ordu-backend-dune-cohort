@@ -22,6 +22,3 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('products.urls')),
 ]
-
-# Custom 404 handler
-handler404 = 'products.views.page_not_found'
