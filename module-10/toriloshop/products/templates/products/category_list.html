@@ -20,13 +20,15 @@
                     <p class="card-text">{{ category.description }}</p>
                 {% endif %}
                 <p class="card-text">
-                    <strong>{{ category.products.count }}</strong> product{{ category.products.count|pluralize }}
+                    <strong>{{ category.product_count }}</strong> product{{ category.product_count|pluralize }}
                 </p>
-                {% if category.products.exists %}
+                {% if category.product_count|default:0 %}
                     <a href="{% url 'category_products' category.slug %}" class="btn btn-primary">View Products</a>
                 {% else %}
                     <button class="btn btn-secondary" disabled>No products yet</button>
                 {% endif %}
+                <a href="{% url 'category_edit' category.pk %}" class="btn btn-sm btn-outline-secondary ms-2">Edit</a>
+                <a href="{% url 'category_delete' category.pk %}" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
             </div>
         </div>
     </div>

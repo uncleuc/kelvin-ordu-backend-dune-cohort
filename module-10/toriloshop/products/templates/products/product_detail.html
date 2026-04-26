@@ -43,6 +43,8 @@
             <div class="card-body">
                 <h5 class="card-title">Actions</h5>
                 <a href="{% url 'product_list' %}" class="btn btn-secondary mb-2">Back to Products</a>
+                <a href="{% url 'product_edit' product.pk %}" class="btn btn-primary mb-2">Edit Product</a>
+                <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger mb-2">Delete Product</a>
                 <a href="{% url 'category_list' %}" class="btn btn-outline-primary">View Categories</a>
             </div>
         </div>

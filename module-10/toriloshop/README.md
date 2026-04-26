@@ -8,6 +8,10 @@ The project now includes the following models:
 - `Category`: stores product categories with `name`, `slug`, and optional `description`
 - `Product`: stores products with `name`, `price`, `stock`, `category`, and `created_at`
 
+The project now supports CRUD operations for both models:
+- Products: Create, Read, Update, Delete via web forms and confirmation pages
+- Categories: Create, Read, Update, Delete via web forms and confirmation pages
+
 The project showcases:
 - Django project structure and app architecture
 - URL routing and view functions with dynamic parameters
@@ -47,6 +51,16 @@ The project showcases:
 - **category_list**: Lists all categories with product counts
 - **category_products**: Shows products filtered by specific category
 - **about**: Company information page
+
+### Forms and URLs implemented
+- `/products/add/` — Add Product form (`products/product_form.html`): creates a new product with validation and CSRF protection
+- `/products/<pk>/edit/` — Edit Product form (`products/product_form.html`): pre-filled form to update a product
+- `/products/<pk>/delete/` — Delete Product confirmation (`products/product_confirm_delete.html`): deletes on POST only
+- `/categories/add/` — Add Category form (`products/category_form.html`): creates a new category with validation and CSRF protection
+- `/categories/<pk>/edit/` — Edit Category form (`products/category_form.html`): pre-filled form to update a category
+- `/categories/<pk>/delete/` — Delete Category confirmation (`products/category_confirm_delete.html`): deletes on POST only
+- Search on `/products/` filters products by name using `?q=`
+- Success flash messages shown after create/edit/delete actions
 
 ### ORM Operations Performed
 - `Product.objects.all()` — View all products
@@ -127,6 +141,7 @@ module-9/
 │   └── asgi.py
 ├── products/                    # Products app
 │   ├── views.py                # All view functions
+│   ├── forms.py                # Model forms for Product and Category
 │   ├── urls.py                 # URL patterns for products app
 │   ├── models.py               # Database models
 │   ├── admin.py                # Admin configuration
@@ -141,6 +156,10 @@ module-9/
 │           ├── product_detail.html # Individual product
 │           ├── category_list.html # Category overview
 │           ├── category_products.html # Category products
+│           ├── product_form.html # Product create/edit form
+│           ├── product_confirm_delete.html # Product delete confirmation
+│           ├── category_form.html # Category create/edit form
+│           ├── category_confirm_delete.html # Category delete confirmation
 │           └── about.html      # About page
 ├── users/                       # Users app (empty)
 │   └── ...
@@ -153,20 +172,23 @@ module-9/
 
 ## Screenshots
 
-### Home Page
-![Home Page](screenshots/03_home_page.png)
-
 ### Product List
 ![Product List](screenshots/01_product_list.png)
 
-### Product Detail Page
-![Product Detail Page](screenshots/05_product_1_preview_page.png)
+### Add Product Form
+![Add Product Form](screenshots/02_add_product_form.png)
 
-### Category List
-![Category List](screenshots/02_category_list.png)
+### Edit Product Form
+![Edit Product Form](screenshots/03_edit_product_form.png)
 
-### About Page
-![About Page](screenshots/04_about_page.png)
+### Delete Confirmation
+![Delete Confirmation](screenshots/04_delete_confirmation.png)
+
+### Form Validation Error
+![Form Validation Error](screenshots/05_form_validation_error.png)
+
+### Success Flash Message
+![Success Flash Message](screenshots/06_success_flash_message.png)
 
 ## Key Files
 

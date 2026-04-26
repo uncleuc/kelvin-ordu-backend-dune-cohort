@@ -10,6 +10,14 @@
 </div>
 
 <div class="row">
+    <div class="col-12 mb-3">
+        <form method="get" class="d-flex">
+            <input name="q" value="{{ q }}" class="form-control me-2" placeholder="Search products by name...">
+            <button class="btn btn-outline-primary">Search</button>
+            <a href="{% url 'product_add' %}" class="btn btn-success ms-2">Add Product</a>
+        </form>
+    </div>
+
     {% for product in products %}
     <div class="col-md-4 col-sm-6 mb-4">
         <div class="card h-100">
