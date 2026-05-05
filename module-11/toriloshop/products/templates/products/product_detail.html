@@ -1,0 +1,67 @@
+{% extends 'products/base.html' %}
+
+{% block title %}{{ product.name }} - Torilo Shop{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'product_list' %}">Products</a></li>
+                <li class="breadcrumb-item active">{{ product.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title product-title">{{ product.name }}</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Price:</strong> ${{ product.price }}</p>
+                            {% if product.image %}
+                            <p>
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="full-image">
+                            </p>
+                            {% else %}
+                            <p class="no-image">No image available for this product.</p>
+                            {% endif %}
+                        <p><strong>Stock:</strong> {{ product.stock }}</p>
+                        <p><strong>Category:</strong> {{ product.category.name }}</p>
+                        <p><strong>Added:</strong> {{ product.created_at|date:"M d, Y" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="product-actions">
+                            {% if product.stock > 0 %}
+                                <span class="badge success">In Stock</span>
+                            {% else %}
+                                <span class="badge danger">Out of Stock</span>
+                            {% endif %}
+                            <div class="actions">
+                                <a class="btn btn-primary" href="{% url 'product_edit' product.pk %}">Edit</a>
+                                <a class="btn btn-danger" href="{% url 'product_delete' product.pk %}">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Actions</h5>
+                <a href="{% url 'product_list' %}" class="btn btn-secondary mb-2">Back to Products</a>
+                <a href="{% url 'product_edit' product.pk %}" class="btn btn-primary mb-2">Edit Product</a>
+                <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger mb-2">Delete Product</a>
+                <a href="{% url 'category_list' %}" class="btn btn-outline-primary">View Categories</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
