@@ -1,0 +1,29 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Login - Torilo Shop{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+  <div class="card auth-card">
+    <div class="card-body">
+      <h2>Login</h2>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+          <label for="id_username">Username</label>
+          {{ form.username }}
+        </div>
+        <div class="mb-3">
+          <label for="id_password">Password</label>
+          {{ form.password }}
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Login</button>
+          <a href="{% url 'accounts:register' %}" class="btn btn-secondary">Register</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
