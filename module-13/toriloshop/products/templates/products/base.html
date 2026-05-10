@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>{% block title %}Torilo Shop{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="brand">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="Torilo Shop" class="logo">
+                </a>
+                <div class="brand-text">
+                    <a class="site-title" href="{% url 'home' %}">Torilo Shop</a>
+                    <p class="tagline">Quality products, thoughtfully curated.</p>
+                </div>
+            </div>
+
+            <nav class="main-nav" aria-label="Main navigation">
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'product_list' %}">Products</a></li>
+                    <li><a href="{% url 'category_list' %}">Categories</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li><span class="text-muted">Hello, {{ request.user.get_username }}</span></li>
+                        <li><a href="{% url 'accounts:logout' %}" id="logout-link">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                        <li><a href="{% url 'accounts:register' %}">Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container text-center">
+            <p>&copy; 2026 Torilo Shop. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
