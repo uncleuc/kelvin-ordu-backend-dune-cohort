@@ -1,4 +1,4 @@
-# 🚀 Kelvin Ordu - Module 9: Django E-Commerce Project
+# 🚀 Kelvin Ordu - Django E-Commerce Project
 
 ## 👨‍🎓 Student Introduction
 
@@ -36,7 +36,6 @@ This module focuses on **Django Web Framework** and **Full-Stack Web Development
 
 Special thanks to my instructors and the course team for providing excellent guidance throughout this learning journey. This project represents months of dedicated learning and practical application of Django concepts.
 
-## 📞 Contact
 
 **KELVIN ORDU**
 - Repository: Current location

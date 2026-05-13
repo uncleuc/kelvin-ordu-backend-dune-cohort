@@ -1,0 +1,333 @@
+{
+  "info": {
+    "_postman_id": "93de828b-7d1d-4777-9cb9-66b47fb8ce6f",
+    "name": "ToriloShop API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "26568539"
+  },
+  "item": [
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"New Product\", \"price\": \"199.99\", \"stock\": 20, \"category_id\": 1, \"is_available\": true}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/products/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "products",
+            ""
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST http://127.0.0.1:8000/api/products/ -H \"Content-Type: application/json\" -d '{\"name\": \"New Product\", \"price\": \"199.99\", \"stock\": 20, \"category_id\": 1, \"is_available\": true}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Product",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Updated Product\", \"price\": \"249.99\", \"stock\": 15, \"category_id\": 1, \"is_available\": true}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/products/:id/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "products",
+            ":id",
+            ""
+          ],
+          "variable": [
+            {
+              "key": "id"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl -X PUT http://127.0.0.1:8000/api/products/:id/ -H \"Content-Type: application/json\" -d '{\"name\": \"Updated Product\", \"price\": \"249.99\", \"stock\": 15, \"category_id\": 1, \"is_available\": true}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Product",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/products/:id/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "products",
+            ":id",
+            ""
+          ],
+          "variable": [
+            {
+              "key": "id"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl -X DELETE http://127.0.0.1:8000/api/products/:id/"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Product",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"iPhone 17\", \"price\": \"999.99\", \"stock\": 20, \"category_id\": 1, \"is_available\": true}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/products/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "products",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "token_obtained",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"workspace1\", \"password\": \"Workspace1\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/token/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "token",
+            ""
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST http://127.0.0.1:8000/api/token/ -H \"Content-Type: application/json\" -d '{\"username\": \"workspace1\", \"password\": \"Workspace1\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "unauthorized_request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 401 Unauthorized\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Response contains authentication error message\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.detail).to.include(\"Authentication credentials were not provided.\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Test\", \"price\": \"10.00\", \"stock\": 5, \"category_id\": 1, \"is_available\": true}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/products/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "products",
+            ""
+          ]
+        },
+        "description": "Use this to confirm auth is required for protected actions."
+      },
+      "response": []
+    },
+    {
+      "name": "authorized_request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201 Created\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_access_token}}",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"New Product\", \"price\": \"100.00\", \"stock\": 10, \"category_id\": 1, \"is_available\": true}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/products/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "products",
+            ""
+          ]
+        },
+        "description": "Use this to test protected endpoints with a valid JWT token stored in jwt_access_token."
+      },
+      "response": []
+    }
+  ]
+}

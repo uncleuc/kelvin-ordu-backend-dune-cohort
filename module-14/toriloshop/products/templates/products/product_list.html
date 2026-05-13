@@ -1,0 +1,186 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Products - Torilo Shop{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <header class="page-header">
+            <h1 class="page-title">Our Products</h1>
+            <p class="lead">Browse featured and popular items. Filter or search to find what you need.</p>
+        </header>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <form method="get" class="card p-3">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="search" class="form-label">Search</label>
+                    <input type="text" name="q" value="{{ q }}" id="search" class="form-control" placeholder="Search products by name...">
+                </div>
+                <div class="col-md-2">
+                    <label for="category" class="form-label">Category</label>
+                    <select name="category" id="category" class="form-select">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}" {% if category_id == category.id|stringformat:"s" %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="availability" class="form-label">Availability</label>
+                    <select name="availability" id="availability" class="form-select">
+                        <option value="">All Products</option>
+                        <option value="available" {% if availability == 'available' %}selected{% endif %}>Available</option>
+                        <option value="unavailable" {% if availability == 'unavailable' %}selected{% endif %}>Unavailable</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="ordering" class="form-label">Sort By</label>
+                    <select name="ordering" id="ordering" class="form-select">
+                        <option value="-created_at" {% if ordering == '-created_at' %}selected{% endif %}>Newest First</option>
+                        <option value="created_at" {% if ordering == 'created_at' %}selected{% endif %}>Oldest First</option>
+                        <option value="price" {% if ordering == 'price' %}selected{% endif %}>Price: Low to High</option>
+                        <option value="-price" {% if ordering == '-price' %}selected{% endif %}>Price: High to Low</option>
+                        <option value="name" {% if ordering == 'name' %}selected{% endif %}>Name: A-Z</option>
+                        <option value="-name" {% if ordering == '-name' %}selected{% endif %}>Name: Z-A</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+                    <a href="{% url 'product_list' %}" class="btn btn-outline-secondary">Clear</a>
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'product_add' %}" class="btn btn-success ms-2">Add Product</a>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <p class="mb-0">
+                Showing {{ page_obj.start_index|default:0 }} to {{ page_obj.end_index|default:0 }} of {{ page_obj.paginator.count }} products
+            </p>
+            {% if q or category_id or availability %}
+            <div>
+                <small class="text-muted">Active filters:</small>
+                {% if q %}<span class="badge bg-info me-1">Search: "{{ q }}"</span>{% endif %}
+                {% if category_id %}
+                    {% for cat in categories %}
+                        {% if cat.id|stringformat:"s" == category_id %}
+                            <span class="badge bg-info me-1">Category: {{ cat.name }}</span>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% if availability %}
+                    <span class="badge bg-info me-1">Availability: {{ availability|title }}</span>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="products-grid">
+    {% for product in products %}
+    <div class="product-item">
+        <article class="product-card card h-100" aria-labelledby="product-{{ product.pk }}">
+            {% if product.image %}
+            <div class="card-image">
+                <a href="{% url 'product_detail' product.pk %}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="thumb">
+                </a>
+            </div>
+            {% else %}
+            <div class="card-image no-image">No image</div>
+            {% endif %}
+            <div class="card-body">
+                <h3 id="product-{{ product.pk }}" class="card-title">{{ product.name }}</h3>
+                <p class="meta">
+                    <span class="price">${{ product.price }}</span> •
+                    <span class="category">{{ product.category.name }}</span>
+                </p>
+                <p class="card-text">
+                    {% if product.stock > 0 %}
+                        <span class="badge success stock-badge">In Stock ({{ product.stock }})</span>
+                    {% else %}
+                        <span class="badge danger stock-badge">Out of Stock</span>
+                    {% endif %}
+                    {% if not product.is_available %}
+                        <span class="badge warning stock-badge">Unavailable</span>
+                    {% endif %}
+                </p>
+                {% if product.created_by %}
+                <p class="text-muted small">Added by {{ product.created_by.get_full_name|default:product.created_by.username }}</p>
+                {% endif %}
+            </div>
+            <div class="card-actions">
+                <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary">View Details</a>
+                {% if request.user.is_authenticated and request.user == product.created_by or request.user.is_staff %}
+                <a href="{% url 'product_edit' product.pk %}" class="btn btn-outline-secondary btn-sm ms-1">Edit</a>
+                <a href="{% url 'product_delete' product.pk %}" class="btn btn-outline-danger btn-sm ms-1">Delete</a>
+                {% endif %}
+            </div>
+        </article>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="text-center py-5">
+            <h3>No products found</h3>
+            <p>Try adjusting your search or filter criteria.</p>
+            <a href="{% url 'product_list' %}" class="btn btn-primary">Clear Filters</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if page_obj.has_other_pages %}
+<div class="row mt-4">
+    <div class="col-12">
+        <nav aria-label="Product pagination">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% if q %}q={{ q }}&{% endif %}{% if category_id %}category={{ category_id }}&{% endif %}{% if availability %}availability={{ availability }}&{% endif %}{% if ordering %}ordering={{ ordering }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if q %}q={{ q }}&{% endif %}{% if category_id %}category={{ category_id }}&{% endif %}{% if availability %}availability={{ availability }}&{% endif %}{% if ordering %}ordering={{ ordering }}&{% endif %}page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% if q %}q={{ q }}&{% endif %}{% if category_id %}category={{ category_id }}&{% endif %}{% if availability %}availability={{ availability }}&{% endif %}{% if ordering %}ordering={{ ordering }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
