@@ -1,63 +1,96 @@
-# 🛍️ Torilo Shop — Module 13 (Authentication + REST API)
+# 🛍️ Torilo Shop — Module 15 (Production Deployment)
 
 ## Project Description
 
-Torilo Shop is a Django e-commerce demo with both web UI and REST API support. In Module 13, security and API features were added to protect create/update/delete operations, expose JWT token authentication endpoints, and allow cross-origin API access.
+Torilo Shop is a Django e-commerce application with full REST API and web UI. Module 15 adds production-ready deployment configuration: environment variables via `.env`, database URL flexibility (SQLite locally, PostgreSQL in production), static file serving with Whitenoise, and application servers (gunicorn for Linux, waitress for Windows testing).
 
-### Security and API features added
+### Production changes made
 
-- Token authentication for API calls using `Authorization: Bearer <access_token>`
-- JWT endpoints: `POST /api/token/` and `POST /api/token/refresh/`
-- Authenticated API access required for `POST`, `PUT`, and `DELETE` product actions
-- `created_by` tracking so users can edit/delete only their own products
-- CORS headers enabled to allow requests from any origin
-- Web authentication with login, registration, logout, and protected product pages
+- Created `.env` file with `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, and `DATABASE_URL`
+- Integrated `python-decouple` to load sensitive values from `.env` at runtime
+- Configured `dj-database-url` for flexible database backends (SQLite fallback, PostgreSQL production)
+- Added `Whitenoise` middleware and storage backend for static file compression and serving
+- Installed `gunicorn` for production WSGI server (Linux/cloud platforms)
+- Installed `waitress` for Windows development testing
+- Created `Procfile` with gunicorn start command ready for Heroku/cloud deployment
+- Generated `requirements.txt` with all dependencies for reproducible installations
+- Ensured `.env` is in `.gitignore` and NOT tracked by git
 
 ## Features Implemented
 
-- Token auth
-- JWT access and refresh tokens
-- CORS support for all origins
-- API pagination and web pagination (6 products per page)
-- Filtering by category, availability, and search query
-- Sorting by date, price, and name
-- Protected web routes for add/edit/delete product actions
-- Authenticated API product create/update/delete requests
+- Environment-based configuration using `python-decouple`
+- Database URL parsing with `dj-database-url` (SQLite local, PostgreSQL production)
+- Static file collection and compression with `Whitenoise`
+- Production WSGI server support (`gunicorn` and `waitress`)
+- Cloud-ready deployment (`Procfile` for Heroku, PaaS platforms)
+- Security: SECRET_KEY, DEBUG, ALLOWED_HOSTS from environment
+- Token auth and JWT endpoints
+- CORS support
+- API pagination, filtering, and search
+- Protected web and API routes
 
 ## Setup Instructions
 
-### 1. Create a virtual environment and activate it
+### 1. Clone and create virtual environment
 ```bash
-# from project root (Assignment/module-13/module-13/toriloshop)
-python -m venv venv
 # Windows PowerShell
+python -m venv venv
 .\venv\Scripts\Activate.ps1
+
 # macOS / Linux
+python -m venv venv
 source venv/bin/activate
 ```
 
-### 2. Install dependencies
+### 2. Install dependencies from requirements.txt
 ```bash
-pip install django Pillow djangorestframework djangorestframework-simplejwt django-cors-headers
+pip install -r requirements.txt
 ```
 
-### 3. Apply database migrations
+### 3. Create .env file in project root
+```bash
+# Copy and customize:
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+ALLOWED_HOSTS=127.0.0.1,localhost
+DATABASE_URL=sqlite:///db.sqlite3
+```
+
+### 4. Apply database migrations
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 4. Create a superuser
+### 5. Create a superuser
 ```bash
 python manage.py createsuperuser
 ```
 
-### 5. Run the development server
+### 6. Collect static files
+```bash
+python manage.py collectstatic --noinput
+```
+
+### 7. Run locally with development server
 ```bash
 python manage.py runserver
 ```
 
-Open the web UI at: http://127.0.0.1:8000/
+Or test with production-like WSGI server:
+
+**Windows (waitress):**
+```bash
+.\venv\Scripts\python.exe -m waitress --listen=127.0.0.1:8000 toriloshop.wsgi:application
+```
+
+**Linux/macOS (gunicorn):**
+```bash
+gunicorn toriloshop.wsgi:application --bind 0.0.0.0:8000 --workers 3
+```
+
+### 8. Deploy to production (Heroku, AWS, Azure, etc.)
+Most platforms auto-read `Procfile` and use gunicorn to start the app.
 
 ## Obtain JWT Tokens
 
@@ -119,23 +152,17 @@ Open the web UI at: http://127.0.0.1:8000/
 
 ## Screenshots
 
-### 1) Token obtained
-![Token obtained](screenshots/01_token_obtained.png)
+### 1) Gunicorn running
+![Gunicorn running](screenshots/01_gunicorn_running.png)
 
-### 2) Unauthorized request
-![Unauthorized request](screenshots/02_unauthorized_request.png)
+### 2) Collectstatic output
+![Collectstatic output](screenshots/02_collectstatic_output.png)
 
-### 3) Authorized request
-![Authorized request](screenshots/03_authorized_request.png)
+### 3) Requirements.txt
+![Requirements.txt](screenshots/03_requirements_txt.png)
 
-### 4) JWT access token
-![JWT access token](screenshots/04_jwt_access_token.png)
-
-### 5) Paginated response
-![Paginated response](screenshots/05_paginated_response.png)
-
-### 6) Filtered results
-![Filtered results](screenshots/06_filtered_result.png)
+### 4) Gitignore excludes .env
+![Gitignore excludes .env](screenshots/04_gitignore_env_excluded.png)
 
 ## API endpoints now exposed
 
@@ -150,8 +177,8 @@ Open the web UI at: http://127.0.0.1:8000/
 
 ```
 Assignment/
-├── module-13/
-│   └── module-13/
+├── module-15/
+│   └── module-15/
 │       └── toriloshop/
 │           ├── manage.py
 │           ├── db.sqlite3
@@ -201,4 +228,4 @@ Assignment/
 - Ensure `MEDIA_URL`/`MEDIA_ROOT` are configured in `toriloshop/settings.py`, and that Pillow is installed for `ImageField` support.
 - For production, configure a proper static/media server, secure settings, and HTTPS.
 
-**This is Module 13 — REST API support plus authentication and admin enhancements.**
+**This is Module 15 — REST API support plus authentication and admin enhancements.**

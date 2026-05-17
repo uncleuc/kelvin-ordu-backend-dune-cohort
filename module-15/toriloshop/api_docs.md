@@ -39,6 +39,34 @@ This document describes all REST API endpoints available in Torilo Shop. The API
 
 ---
 
+### Get DRF Token Auth
+
+**Endpoint:** `POST /api/token-auth/`
+
+**Description:** Obtain a standard DRF token for use with `TokenAuthentication`.
+
+**Request Body:**
+```json
+{
+  "username": "workspace1",
+  "password": "securepassword"
+}
+```
+
+**Response (200 OK):**
+```json
+{
+  "token": "0123456789abcdef0123456789abcdef01234567"
+}
+```
+
+**Usage in Postman:**
+1. Send POST request with credentials
+2. Copy the `token`
+3. For authenticated requests, add header: `Authorization: Token <token>`
+
+---
+
 ### Refresh JWT Token
 
 **Endpoint:** `POST /api/token/refresh/`
